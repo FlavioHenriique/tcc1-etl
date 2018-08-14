@@ -14,19 +14,19 @@ public class Acao implements Serializable {
     private int id;
     private int codigoFuncao;
     private String nomeFuncao;
-    private int codigoSubFuncao;
+    private String codigoSubFuncao;
     private String nomeSubFuncao;
     private String codigoPrograma;
     private String nomePrograma;
-    private int codigoAcao;
+    private String codigoAcao;
     private String nomeAcao;
 
     public Acao() {
     }
 
-    public Acao(int codigoFuncao, String nomeFuncao, int codigoSubFuncao,
+    public Acao(int codigoFuncao, String nomeFuncao, String codigoSubFuncao,
             String nomeSubFuncao, String codigoPrograma, String nomePrograma,
-            int codigoAcao, String nomeAcao) {
+            String codigoAcao, String nomeAcao) {
         this.codigoFuncao = codigoFuncao;
         this.nomeFuncao = nomeFuncao;
         this.codigoSubFuncao = codigoSubFuncao;
@@ -61,11 +61,11 @@ public class Acao implements Serializable {
         this.nomeFuncao = nomeFuncao;
     }
 
-    public int getCodigoSubFuncao() {
+    public String getCodigoSubFuncao() {
         return codigoSubFuncao;
     }
 
-    public void setCodigoSubFuncao(int codigoSubFuncao) {
+    public void setCodigoSubFuncao(String codigoSubFuncao) {
         this.codigoSubFuncao = codigoSubFuncao;
     }
 
@@ -93,11 +93,11 @@ public class Acao implements Serializable {
         this.nomePrograma = nomePrograma;
     }
 
-    public int getCodigoAcao() {
+    public String getCodigoAcao() {
         return codigoAcao;
     }
 
-    public void setCodigoAcao(int codigoAcao) {
+    public void setCodigoAcao(String codigoAcao) {
         this.codigoAcao = codigoAcao;
     }
 
@@ -112,11 +112,11 @@ public class Acao implements Serializable {
     @Override
     public String toString() {
         return "Acao{" + "id=" + id + ", codigoFuncao=" + codigoFuncao
-                + ", nomeFuncao=" + nomeFuncao + ", codigoSubFuncao=" +
-                codigoSubFuncao + ", nomeSubFuncao=" + nomeSubFuncao + 
-                ", codigoPrograma=" + codigoPrograma + ", nomePrograma="
-                + nomePrograma + ", codigoAcao=" + codigoAcao + 
-                ", nomeAcao=" + nomeAcao + '}';
+                + ", nomeFuncao=" + nomeFuncao + ", codigoSubFuncao="
+                + codigoSubFuncao + ", nomeSubFuncao=" + nomeSubFuncao
+                + ", codigoPrograma=" + codigoPrograma + ", nomePrograma="
+                + nomePrograma + ", codigoAcao=" + codigoAcao
+                + ", nomeAcao=" + nomeAcao + '}';
     }
 
 }

@@ -3,6 +3,8 @@
   <persistence-unit name="TCC1-ETL" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.edu.ifpb.etl.model.Acao</class>
+    <class>br.edu.ifpb.etl.model.Favorecido</class>
+    <class>br.edu.ifpb.etl.model.Data</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tcc"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
