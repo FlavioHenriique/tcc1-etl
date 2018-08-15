@@ -2,11 +2,20 @@ package br.edu.ifpb.etl.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.annotation.Generated;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class UnidadeGestora implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int codigo;
+    @Column(unique = true)
     private int codigoUnidadeGestora;
     private String nomeUnidadeGestora;
     private int codigoOrgaoSuperior;
@@ -16,13 +25,14 @@ public class UnidadeGestora implements Serializable {
 
     public UnidadeGestora(int codigoUnidadeGestora, String nomeUnidadeGestora,
             int codigoOrgaoSuperior, String nomeOrgaoSuperior, int codigoOrgao,
-            String nomeOrgao) {
+            String nomeOrgao, int codigo) {
         this.codigoUnidadeGestora = codigoUnidadeGestora;
         this.nomeUnidadeGestora = nomeUnidadeGestora;
         this.codigoOrgaoSuperior = codigoOrgaoSuperior;
         this.nomeOrgaoSuperior = nomeOrgaoSuperior;
         this.codigoOrgao = codigoOrgao;
         this.nomeOrgao = nomeOrgao;
+        this.codigo = codigo;
     }
 
     public UnidadeGestora() {
@@ -76,13 +86,21 @@ public class UnidadeGestora implements Serializable {
         this.nomeOrgao = nomeOrgao;
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
     @Override
     public String toString() {
-        return "UnidadeGestora{" + "codigoUnidadeGestora=" + codigoUnidadeGestora 
-                + ", nomeUnidadeGestora=" + nomeUnidadeGestora + 
-                ", codigoOrgaoSuperior=" + codigoOrgaoSuperior + 
-                ", nomeOrgaoSuperior=" + nomeOrgaoSuperior + 
-                ", codigoOrgao=" + codigoOrgao + ", nomeOrgao=" + nomeOrgao + '}';
+        return "UnidadeGestora{" + "codigoUnidadeGestora=" + codigoUnidadeGestora
+                + ", nomeUnidadeGestora=" + nomeUnidadeGestora
+                + ", codigoOrgaoSuperior=" + codigoOrgaoSuperior
+                + ", nomeOrgaoSuperior=" + nomeOrgaoSuperior
+                + ", codigoOrgao=" + codigoOrgao + ", nomeOrgao=" + nomeOrgao + '}';
     }
 
     @Override
@@ -94,6 +112,7 @@ public class UnidadeGestora implements Serializable {
         hash = 71 * hash + Objects.hashCode(this.nomeOrgaoSuperior);
         hash = 71 * hash + this.codigoOrgao;
         hash = 71 * hash + Objects.hashCode(this.nomeOrgao);
+        hash = 71 * hash + Objects.hashCode(this.codigo);
         return hash;
     }
 
@@ -127,7 +146,10 @@ public class UnidadeGestora implements Serializable {
         if (!Objects.equals(this.nomeOrgao, other.nomeOrgao)) {
             return false;
         }
+        if (!Objects.equals(this.codigo, other.codigo)) {
+            return false;
+        }
         return true;
     }
-
+    
 }

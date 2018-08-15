@@ -1,8 +1,10 @@
 package br.edu.ifpb.etl.read;
 
+import br.edu.ifpb.etl.jpa.FindJPA;
 import br.edu.ifpb.etl.model.Acao;
 import br.edu.ifpb.etl.model.Data;
 import br.edu.ifpb.etl.model.Favorecido;
+import br.edu.ifpb.etl.model.UnidadeGestora;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
@@ -58,7 +60,15 @@ public class ReadCSV {
             a.setCodigoPrograma(record.get("Código Programa"));
             a.setNomeAcao(record.get("Ação"));
 
-            lista.add(a);
+            boolean existe = false;
+            for (Acao ac : lista) {
+                if (ac.getCodigoAcao().equals(a.getCodigoAcao())) {
+                    existe = true;
+                }
+            }
+            if (!existe) {
+                lista.add(a);
+            }
         }
 
         return lista;
@@ -76,15 +86,22 @@ public class ReadCSV {
             favorecido.setCodigo(record.get("Código Favorecido"));
             favorecido.setNome(record.get("Favorecido"));
 
-            if (!lista.contains(favorecido)) {
+            boolean existe = false;
+            for (Favorecido f : lista) {
+                if (f.getCodigo().equals(favorecido.getCodigo())) {
+                    existe = true;
+                }
+            }
+            if (existe == false) {
                 lista.add(favorecido);
+
             }
         }
 
         return lista;
     }
 
-    public Data getDatas() {
+    public Data getData() {
 
         Iterator<CSVRecord> iterator = parser.iterator();
 
@@ -110,6 +127,38 @@ public class ReadCSV {
         d.setSemestre(semestre);
 
         return d;
+
+    }
+
+    public List<UnidadeGestora> getUnidadesGestoras() {
+
+        Iterator<CSVRecord> iterator = parser.iterator();
+
+        List<UnidadeGestora> unidades = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            CSVRecord record = iterator.next();
+
+            UnidadeGestora u = new UnidadeGestora();
+            u.setCodigoOrgao(Integer.parseInt(record.get("Código Órgão")));
+            u.setNomeOrgao(record.get("Órgão"));
+            u.setCodigoOrgaoSuperior(Integer.parseInt(record.get("Código Órgão Superior")));
+            u.setNomeOrgaoSuperior(record.get("Órgão Superior"));
+            u.setCodigoUnidadeGestora(Integer.parseInt(record.get("Código Unidade Gestora")));
+            u.setNomeUnidadeGestora(record.get("Unidade Gestora"));
+
+            boolean existe = false;
+            for (UnidadeGestora unidade : unidades) {
+                if (unidade.getCodigoUnidadeGestora()
+                        == u.getCodigoUnidadeGestora()) {
+                    existe = true;
+                }
+            }
+            if (existe == false) {
+                unidades.add(u);
+            }
+        }
         
+        return unidades;
     }
 }

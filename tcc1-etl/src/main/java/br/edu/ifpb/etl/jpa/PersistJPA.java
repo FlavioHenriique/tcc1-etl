@@ -1,36 +1,45 @@
-package br.edu.ifpb.etl.controller;
+package br.edu.ifpb.etl.jpa;
 
 import br.edu.ifpb.etl.model.Acao;
 import br.edu.ifpb.etl.model.Data;
 import br.edu.ifpb.etl.model.Favorecido;
+import br.edu.ifpb.etl.model.UnidadeGestora;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-public class DAO {
+public class PersistJPA {
 
     private EntityManager manager;
 
-    public DAO() {
+    public PersistJPA() {
         this.manager = Persistence.createEntityManagerFactory("TCC1-ETL")
                 .createEntityManager();
     }
 
     public void salvarAcao(Acao acao) {
 
-        manager.getTransaction().begin();
-        manager.persist(acao);
-        manager.getTransaction().commit();
+        persistir(acao);
     }
 
     public void salvarFavorecido(Favorecido favorecido) {
-        manager.getTransaction().begin();
-        manager.persist(favorecido);
-        manager.getTransaction().commit();
+        persistir(favorecido);
     }
 
     public void salvarDatas(Data data) {
+        persistir(data);
+    }
+
+    public void salvarUnidadeGestora(UnidadeGestora unidadeGestora) {
+
+        persistir(unidadeGestora);
+    }
+
+    private void persistir(Object obj) {
+
         manager.getTransaction().begin();
-        manager.persist(data);
+        manager.persist(obj);
         manager.getTransaction().commit();
     }
+    
+    
 }

@@ -1,38 +1,32 @@
 package br.edu.ifpb.etl.view;
 
-import br.edu.ifpb.etl.controller.DAO;
+import br.edu.ifpb.etl.jpa.FindJPA;
+import br.edu.ifpb.etl.jpa.PersistJPA;
+import br.edu.ifpb.etl.jpa.VerificacaoDados;
 import br.edu.ifpb.etl.model.Acao;
-import br.edu.ifpb.etl.model.Data;
-import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.read.ReadCSV;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
     public static void main(String[] args) {
-
         try {
             ReadCSV read = new ReadCSV("/home/flavio/20170101_Despesas_Empenho.csv");
-            DAO dao = new DAO();
 
-            int count = 0;
-            /*for (Acao a : read.getAcoes()) {
-                dao.salvarAcao(a);
-                System.out.println("salvo " + ++count);
-            }
-            
-            List<Favorecido> favorecidos = read.getFavorecidos();
-            for (Favorecido f : favorecidos) {
-                dao.salvarFavorecido(f);
-                System.out.println("salvo "+ f.getNome());
-            }*/
+            VerificacaoDados dados = new VerificacaoDados(
+                    "/home/flavio/20180531_Despesas_Empenho.csv");
 
-            dao.salvarDatas(read.getDatas());
-            
-            
+            //read.getAcoes();
+            //dados.salvarAcoes();
+            //dados.salvarFavorecidos();
+            //dados.salvarData();
+            dados.salvarUnidades();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+
 }

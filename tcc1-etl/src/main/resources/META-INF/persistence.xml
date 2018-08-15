@@ -5,12 +5,13 @@
     <class>br.edu.ifpb.etl.model.Acao</class>
     <class>br.edu.ifpb.etl.model.Favorecido</class>
     <class>br.edu.ifpb.etl.model.Data</class>
+    <class>br.edu.ifpb.etl.model.UnidadeGestora</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tcc"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="flavio22"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
