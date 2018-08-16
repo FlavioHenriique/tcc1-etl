@@ -15,8 +15,8 @@ public class Data implements Serializable {
 
     @Id
     private int codigo;
-    @Temporal(TemporalType.DATE)
-    private Date data;
+    //@Temporal(TemporalType.DATE)
+    //private Date data;
     private int ano;
     private int numero_mes;
     private String nome_mes;
@@ -25,9 +25,10 @@ public class Data implements Serializable {
     public Data() {
     }
 
-    public Data(int codigo, Date data, int ano, int numero_mes, String nome_mes, int semestre) {
+    public Data(int codigo, int ano, int numero_mes,
+            String nome_mes, int semestre) {
         this.codigo = codigo;
-        this.data = data;
+        //this.data = data;
         this.ano = ano;
         this.numero_mes = numero_mes;
         this.nome_mes = nome_mes;
@@ -40,14 +41,6 @@ public class Data implements Serializable {
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
 
     public int getAno() {
@@ -84,14 +77,15 @@ public class Data implements Serializable {
 
     @Override
     public String toString() {
-        return "Data{" + "codigo=" + codigo + ", data=" + data + ", ano=" + ano + ", numero_mes=" + numero_mes + ", nome_mes=" + nome_mes + ", semestre=" + semestre + '}';
+        return "Data{" + "codigo=" + codigo + ", "
+                + ", ano=" + ano + ", numero_mes=" + numero_mes + ","
+                + " nome_mes=" + nome_mes + ", semestre=" + semestre + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 47 * hash + this.codigo;
-        hash = 47 * hash + Objects.hashCode(this.data);
         hash = 47 * hash + this.ano;
         hash = 47 * hash + this.numero_mes;
         hash = 47 * hash + Objects.hashCode(this.nome_mes);
@@ -124,9 +118,6 @@ public class Data implements Serializable {
             return false;
         }
         if (!Objects.equals(this.nome_mes, other.nome_mes)) {
-            return false;
-        }
-        if (!Objects.equals(this.data, other.data)) {
             return false;
         }
         return true;

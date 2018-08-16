@@ -105,25 +105,26 @@ public class ReadCSV {
 
         Iterator<CSVRecord> iterator = parser.iterator();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         CSVRecord record = iterator.next();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate data = LocalDate.parse(record.get("Data Emissão"), formatter);
-        Data d = new Data();
-        d.setCodigo(Integer.parseInt(Date.valueOf(data).toString()
-                .replaceAll("-", "")));
-        d.setAno(data.getYear());
-        d.setData(Date.valueOf(data));
-        d.setNumero_mes(data.getMonthValue());
-        d.setNome_mes(data.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt")));
 
-        int semestre = 0;
-        if (data.getMonthValue() <= 6) {
-            semestre = Integer.parseInt("01" + data.getYear());
-        } else {
-            semestre = Integer.parseInt("02" + data.getYear());
-        }
+        Data d = new Data();
+        d.setAno(data.getYear());
+        d.setNumero_mes(data.getMonthValue());
+
+        String mes = (d.getNumero_mes() <= 9) ? "0" + d.getNumero_mes()
+                : "" + d.getNumero_mes();
+        d.setCodigo(Integer.parseInt(d.getAno() + mes));
+
+        d.setNome_mes(data.getMonth().getDisplayName(TextStyle.FULL,
+                new Locale("pt")));
+
+        int semestre = (data.getMonthValue() <= 6)
+                ? Integer.parseInt("01" + data.getYear())
+                : Integer.parseInt("02" + data.getYear());
+
         d.setSemestre(semestre);
 
         return d;
@@ -158,7 +159,7 @@ public class ReadCSV {
                 unidades.add(u);
             }
         }
-        
+
         return unidades;
     }
 }

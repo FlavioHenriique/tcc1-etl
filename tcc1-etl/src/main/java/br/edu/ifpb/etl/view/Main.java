@@ -22,8 +22,8 @@ public class Main {
             //read.getAcoes();
             //dados.salvarAcoes();
             //dados.salvarFavorecidos();
-            //dados.salvarData();
-            dados.salvarUnidades();
+            dados.salvarData();
+            //dados.salvarUnidades();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
