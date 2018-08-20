@@ -2,6 +2,7 @@ package br.edu.ifpb.etl.jpa;
 
 import br.edu.ifpb.etl.model.Acao;
 import br.edu.ifpb.etl.model.Data;
+import br.edu.ifpb.etl.model.Empenho;
 import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
 import javax.persistence.EntityManager;
@@ -33,7 +34,12 @@ public class PersistJPA {
 
         persistir(unidadeGestora);
     }
-
+    
+    public void salvarEmpenho(Empenho empenho){
+        
+        persistir(empenho);
+    }
+    
     private void persistir(Object obj) {
 
         manager.getTransaction().begin();

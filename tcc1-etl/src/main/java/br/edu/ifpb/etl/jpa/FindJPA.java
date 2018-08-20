@@ -22,7 +22,6 @@ public class FindJPA {
     public List<Favorecido> findFavorecidos() {
         Query query = manager.createQuery("select f from Favorecido f", Favorecido.class);
         return query.getResultList();
-
     }
 
     public List<Acao> findAcoes() {
