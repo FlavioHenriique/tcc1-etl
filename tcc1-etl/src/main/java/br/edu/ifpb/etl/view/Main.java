@@ -22,15 +22,16 @@ public class Main {
             List<CSVRecord> records = extrairDados.getRecords();
             
             //Transformando dados
-            TransformarDados transformarDados = new TransformarDados(records);
-            transformarDados.transformarTodos();
+            TransformarDados transforma = new TransformarDados(records);
+            transforma.transformarTodos();
             
             //Carregando dados
-            CarregaDados carregaDados = new CarregaDados();
-            carregaDados.salvarAcoes(transformarDados.getAcoes());
-            carregaDados.salvarData(transformarDados.getData());
-            carregaDados.salvarFavorecidos(transformarDados.getFavorecidos());
-            carregaDados.salvarUnidades(transformarDados.getUnidades());
+            CarregaDados carrega = new CarregaDados();
+            carrega.salvarAcoes(transforma.getAcoes());
+            carrega.salvarData(transforma.getData());
+            carrega.salvarFavorecidos(transforma.getFavorecidos());
+            carrega.salvarUnidades(transforma.getUnidades());
+            carrega.salvarEmpenhos(transforma.getEmpenhos());
             
         } catch (IOException ex) {
             ex.printStackTrace();

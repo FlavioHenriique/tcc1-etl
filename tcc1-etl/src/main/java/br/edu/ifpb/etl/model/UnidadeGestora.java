@@ -13,8 +13,6 @@ import javax.persistence.Id;
 public class UnidadeGestora implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int codigo;
     @Column(unique = true)
     private int codigoUnidadeGestora;
     private String nomeUnidadeGestora;
@@ -32,7 +30,7 @@ public class UnidadeGestora implements Serializable {
         this.nomeOrgaoSuperior = nomeOrgaoSuperior;
         this.codigoOrgao = codigoOrgao;
         this.nomeOrgao = nomeOrgao;
-        this.codigo = codigo;
+        
     }
 
     public UnidadeGestora() {
@@ -86,13 +84,7 @@ public class UnidadeGestora implements Serializable {
         this.nomeOrgao = nomeOrgao;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
+    
 
     @Override
     public String toString() {
@@ -112,7 +104,7 @@ public class UnidadeGestora implements Serializable {
         hash = 71 * hash + Objects.hashCode(this.nomeOrgaoSuperior);
         hash = 71 * hash + this.codigoOrgao;
         hash = 71 * hash + Objects.hashCode(this.nomeOrgao);
-        hash = 71 * hash + Objects.hashCode(this.codigo);
+        
         return hash;
     }
 
@@ -146,9 +138,7 @@ public class UnidadeGestora implements Serializable {
         if (!Objects.equals(this.nomeOrgao, other.nomeOrgao)) {
             return false;
         }
-        if (!Objects.equals(this.codigo, other.codigo)) {
-            return false;
-        }
+        
         return true;
     }
     

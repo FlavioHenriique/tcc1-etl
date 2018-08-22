@@ -3,29 +3,44 @@ package br.edu.ifpb.etl.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Empenho implements Serializable {
+public class EmpenhoTemporario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "codAcao")
     private Acao acao;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "codFavorecido")
     private Favorecido favorecido;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "codUnidadeGestora")
     private UnidadeGestora unidadeGestora;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "codData")
     private Data data;
     private BigDecimal valor;
 
-    public Empenho() {
+    public EmpenhoTemporario() {
+    }
+
+    public EmpenhoTemporario(Acao acao, Favorecido favorecido,
+            UnidadeGestora unidadeGestora, Data data) {
+        this.acao = acao;
+        this.favorecido = favorecido;
+        this.unidadeGestora = unidadeGestora;
+        this.data = data;
     }
 
     public int getId() {
@@ -99,7 +114,7 @@ public class Empenho implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Empenho other = (Empenho) obj;
+        final EmpenhoTemporario other = (EmpenhoTemporario) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -123,7 +138,7 @@ public class Empenho implements Serializable {
 
     @Override
     public String toString() {
-        return "Empenho{" + "id=" + id + ", acao=" + acao
+        return "EmpenhoTemporario{" + "id=" + id + ", acao=" + acao
                 + ", favorecido=" + favorecido + ", unidadeGestora="
                 + unidadeGestora + ", data=" + data + ", valor=" + valor + '}';
     }

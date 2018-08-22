@@ -7,6 +7,7 @@ import br.edu.ifpb.etl.model.Data;
 import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
 import br.edu.ifpb.etl.data.ExtrairDados;
+import br.edu.ifpb.etl.model.EmpenhoTemporario;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,5 +111,10 @@ public class CarregaDados {
             unidadesCSV.forEach(u -> persist.salvarUnidadeGestora(u));
         }
 
+    }
+
+    public void salvarEmpenhos(List<EmpenhoTemporario> empenhos) {
+
+        empenhos.forEach(e -> persist.salvarEmpenhoTemporario(e));
     }
 }

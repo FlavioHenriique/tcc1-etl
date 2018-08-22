@@ -2,8 +2,10 @@ package br.edu.ifpb.etl.data;
 
 import br.edu.ifpb.etl.model.Acao;
 import br.edu.ifpb.etl.model.Data;
+import br.edu.ifpb.etl.model.EmpenhoTemporario;
 import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -20,12 +22,14 @@ public class TransformarDados {
     private List<Favorecido> favorecidos;
     private Data data;
     private List<UnidadeGestora> unidades;
+    private List<EmpenhoTemporario> empenhos;
 
     public TransformarDados(List<CSVRecord> records) {
         this.records = records;
         this.acoes = new ArrayList<>();
         this.favorecidos = new ArrayList<>();
         this.unidades = new ArrayList<>();
+        this.empenhos = new ArrayList<>();
     }
 
     public void transformarTodos() {
@@ -46,9 +50,19 @@ public class TransformarDados {
             UnidadeGestora unidade = retornaUnidade(record);
             verificaUnidadeGestora(unidade);
 
+            //Recupera data para este empenho
+            Data dataEmpenho = retornaData(record);
+
+            //Recupera Empenho
+            EmpenhoTemporario empenho = new EmpenhoTemporario(acao, favorecido,
+                    unidade, dataEmpenho);
+            String valor = record.get("Valor do Empenho Convertido pra R$")
+                    .replaceAll(",", ".");
+            empenho.setValor(new BigDecimal(valor));
+            verificaEmpenhos(empenho);
         }
         //Recupera Data
-        this.data = retornaData(records.get(1));
+        this.data = retornaData(records.get(0));
 
     }
 
@@ -86,6 +100,26 @@ public class TransformarDados {
         }
         if (existe == false) {
             unidades.add(u);
+        }
+    }
+
+    private void verificaEmpenhos(EmpenhoTemporario empenho) {
+
+        boolean existe = false;
+
+        for (EmpenhoTemporario e : empenhos) {
+            if ((e.getAcao().getCodigoAcao().equals(empenho.getAcao()
+                    .getCodigoAcao())) && (e.getFavorecido().getCodigo()
+                            .equals(empenho.getFavorecido().getCodigo()))
+                    && (e.getUnidadeGestora().getCodigoUnidadeGestora()
+                    == empenho.getUnidadeGestora().getCodigoUnidadeGestora())) {
+
+                existe = true;
+            }
+        }
+        if (existe == false) {
+            empenhos.add(empenho);
+
         }
     }
 
@@ -171,6 +205,10 @@ public class TransformarDados {
 
     public List<UnidadeGestora> getUnidades() {
         return unidades;
+    }
+
+    public List<EmpenhoTemporario> getEmpenhos() {
+        return empenhos;
     }
 
 }

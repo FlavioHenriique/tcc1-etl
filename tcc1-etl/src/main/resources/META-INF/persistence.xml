@@ -7,6 +7,7 @@
     <class>br.edu.ifpb.etl.model.Data</class>
     <class>br.edu.ifpb.etl.model.UnidadeGestora</class>
     <class>br.edu.ifpb.etl.model.Empenho</class>
+    <class>br.edu.ifpb.etl.model.EmpenhoTemporario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tcc"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
