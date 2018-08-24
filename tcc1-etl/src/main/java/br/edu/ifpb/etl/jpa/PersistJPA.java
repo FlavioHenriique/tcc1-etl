@@ -7,6 +7,7 @@ import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class PersistJPA {
 
@@ -40,13 +41,11 @@ public class PersistJPA {
     public void salvarEmpenhoTemporario(EmpenhoTemporario empenho) {
 
         manager.getTransaction().begin();
-        
-        empenho.setAcao(manager.merge(find.findAcao(empenho.getAcao())));
-        empenho.setUnidadeGestora(manager.merge(find
-                .findUnidadeGestora(empenho.getUnidadeGestora())));
-        empenho.setFavorecido(manager.merge(find.findFavorecido(
-                empenho.getFavorecido())));
-        empenho.setData(manager.merge(find.findData(empenho.getData())));
+
+        empenho.setAcao(manager.merge(empenho.getAcao()));
+        empenho.setUnidadeGestora(manager.merge(empenho.getUnidadeGestora()));
+        empenho.setFavorecido(manager.merge(empenho.getFavorecido()));
+        empenho.setData(manager.merge(empenho.getData()));
         manager.persist(empenho);
         manager.getTransaction().commit();
     }
@@ -56,6 +55,11 @@ public class PersistJPA {
         manager.getTransaction().begin();
         manager.persist(obj);
         manager.getTransaction().commit();
+    }
+    
+    public void executeInsereEmpenhos(){
+        Query query = manager.createQuery("SELECT * FROM insereempenhos()");
+        query.executeUpdate();
     }
 
 }

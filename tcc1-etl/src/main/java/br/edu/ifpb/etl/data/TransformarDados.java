@@ -59,11 +59,11 @@ public class TransformarDados {
             String valor = record.get("Valor do Empenho Convertido pra R$")
                     .replaceAll(",", ".");
             empenho.setValor(new BigDecimal(valor));
-            verificaEmpenhos(empenho);
+            //    verificaEmpenhos(empenho);
+            empenhos.add(empenho);
         }
         //Recupera Data
         this.data = retornaData(records.get(0));
-
     }
 
     private void verificaAcao(Acao acao) {

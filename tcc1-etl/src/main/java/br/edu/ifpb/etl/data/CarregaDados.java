@@ -115,6 +115,11 @@ public class CarregaDados {
 
     public void salvarEmpenhos(List<EmpenhoTemporario> empenhos) {
 
+        System.out.println("empenhos temporários: "+ empenhos.size());
         empenhos.forEach(e -> persist.salvarEmpenhoTemporario(e));
+    }
+    
+    public void executaInsereEmpenhos(){
+        persist.executeInsereEmpenhos();
     }
 }

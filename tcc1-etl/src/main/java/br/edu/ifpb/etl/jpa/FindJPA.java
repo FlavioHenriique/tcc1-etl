@@ -53,9 +53,9 @@ public class FindJPA {
                 EmpenhoTemporario.class);
         return query.getResultList();
     }
-    
-    public Data findData(Data d){
-        
+
+    public Data findData(Data d) {
+
         return manager.find(Data.class, d.getCodigo());
     }
 }
