@@ -8,6 +8,7 @@ import br.edu.ifpb.etl.model.UnidadeGestora;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 public class PersistJPA {
 
@@ -58,8 +59,10 @@ public class PersistJPA {
     }
     
     public void executeInsereEmpenhos(){
-        Query query = manager.createQuery("SELECT * FROM insereempenhos()");
-        query.executeUpdate();
+        StoredProcedureQuery procedure = manager
+                .createStoredProcedureQuery("insereempenhos");
+        procedure.execute();
+        
     }
 
 }

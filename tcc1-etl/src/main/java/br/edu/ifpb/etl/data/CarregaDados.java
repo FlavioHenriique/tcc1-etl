@@ -120,6 +120,7 @@ public class CarregaDados {
     }
     
     public void executaInsereEmpenhos(){
+        System.out.println("Executando o procedimento para inserir empenhos");
         persist.executeInsereEmpenhos();
     }
 }

@@ -17,53 +17,62 @@ import org.apache.commons.csv.CSVRecord;
 
 public class TransformarDados {
 
-    private List<CSVRecord> records;
     private List<Acao> acoes;
     private List<Favorecido> favorecidos;
     private Data data;
     private List<UnidadeGestora> unidades;
     private List<EmpenhoTemporario> empenhos;
 
-    public TransformarDados(List<CSVRecord> records) {
-        this.records = records;
+    public TransformarDados() {
+
         this.acoes = new ArrayList<>();
         this.favorecidos = new ArrayList<>();
         this.unidades = new ArrayList<>();
         this.empenhos = new ArrayList<>();
     }
 
-    public void transformarTodos() {
+    public boolean csvValido(List<CSVRecord> records) {
+        return (records.size() != 0);
+    }
 
-        for (int k = 0; k < records.size(); k++) {
+    public void transformarTodos(List<CSVRecord> records) {
 
-            CSVRecord record = records.get(k);
+        if (records.size() != 0) {
+            for (int k = 0; k < records.size(); k++) {
+                System.out.println(k);
+                CSVRecord record = records.get(k);
 
-            // Recuperando as ações 
-            Acao acao = retornaAcao(record);
-            verificaAcao(acao);
+                RetornaEntidades entidades = new RetornaEntidades(record);
 
-            // Recuperando os favorecidos
-            Favorecido favorecido = retornaFavorecido(record);
-            verificaFavorecido(favorecido);
+                // Recuperando as ações 
+                Acao acao = entidades.retornaAcao();
+                verificaAcao(acao);
 
-            //Recuperando unidades gestoras
-            UnidadeGestora unidade = retornaUnidade(record);
-            verificaUnidadeGestora(unidade);
+                // Recuperando os favorecidos
+                Favorecido favorecido = entidades.retornaFavorecido();
+                verificaFavorecido(favorecido);
 
-            //Recupera data para este empenho
-            Data dataEmpenho = retornaData(record);
+                //Recuperando unidades gestoras
+                UnidadeGestora unidade = entidades.retornaUnidade();
+                verificaUnidadeGestora(unidade);
 
-            //Recupera Empenho
-            EmpenhoTemporario empenho = new EmpenhoTemporario(acao, favorecido,
-                    unidade, dataEmpenho);
-            String valor = record.get("Valor do Empenho Convertido pra R$")
-                    .replaceAll(",", ".");
-            empenho.setValor(new BigDecimal(valor));
-            //    verificaEmpenhos(empenho);
-            empenhos.add(empenho);
+                //Recupera data para este empenho
+                Data dataEmpenho = entidades.retornaData();
+
+                //Recupera Empenho
+                EmpenhoTemporario empenho = new EmpenhoTemporario(acao, favorecido,
+                        unidade, dataEmpenho);
+                String valor = record.get("Valor do Empenho Convertido pra R$")
+                        .replaceAll(",", ".");
+                empenho.setValor(new BigDecimal(valor));
+                System.out.println(record.get("Data Emissão"));
+                //    verificaEmpenhos(empenho);
+                empenhos.add(empenho);
+            }
+            //Recupera Data
+            RetornaEntidades entidades = new RetornaEntidades(records.get(0));
+            this.data = entidades.retornaData();
         }
-        //Recupera Data
-        this.data = retornaData(records.get(0));
     }
 
     private void verificaAcao(Acao acao) {
@@ -121,74 +130,6 @@ public class TransformarDados {
             empenhos.add(empenho);
 
         }
-    }
-
-    private Acao retornaAcao(CSVRecord csv) {
-
-        Acao a = new Acao();
-
-        a.setNomeFuncao(csv.get("Função"));
-        a.setCodigoFuncao(Integer.parseInt(csv.get("Código Função")));
-        a.setNomePrograma(csv.get("Programa"));
-        a.setNomeSubFuncao(csv.get("SubFunção"));
-        a.setCodigoSubFuncao(csv.get("Código Função")
-                .concat(csv.get("Código SubFunção")));
-        a.setCodigoAcao(csv.get("Código Programa")
-                .concat(csv.get("Código Ação")));
-        a.setCodigoPrograma(csv.get("Código Programa"));
-        a.setNomeAcao(csv.get("Ação"));
-
-        return a;
-    }
-
-    private Data retornaData(CSVRecord csv) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate data = LocalDate.parse(csv.get("Data Emissão"), formatter);
-
-        Data d = new Data();
-
-        d.setAno(data.getYear());
-        d.setNumero_mes(data.getMonthValue());
-
-        String mes = (d.getNumero_mes() <= 9) ? "0" + d.getNumero_mes()
-                : "" + d.getNumero_mes();
-        d.setCodigo(Integer.parseInt(d.getAno() + mes));
-
-        d.setNome_mes(data.getMonth().getDisplayName(TextStyle.FULL,
-                new Locale("pt")));
-
-        int semestre = (data.getMonthValue() <= 6)
-                ? Integer.parseInt("01" + data.getYear())
-                : Integer.parseInt("02" + data.getYear());
-
-        d.setSemestre(semestre);
-
-        return d;
-    }
-
-    private UnidadeGestora retornaUnidade(CSVRecord csv) {
-
-        UnidadeGestora u = new UnidadeGestora();
-
-        u.setCodigoOrgao(Integer.parseInt(csv.get("Código Órgão")));
-        u.setNomeOrgao(csv.get("Órgão"));
-        u.setCodigoOrgaoSuperior(Integer.parseInt(csv.get("Código Órgão Superior")));
-        u.setNomeOrgaoSuperior(csv.get("Órgão Superior"));
-        u.setCodigoUnidadeGestora(Integer.parseInt(csv.get("Código Unidade Gestora")));
-        u.setNomeUnidadeGestora(csv.get("Unidade Gestora"));
-
-        return u;
-    }
-
-    private Favorecido retornaFavorecido(CSVRecord csv) {
-
-        Favorecido favorecido = new Favorecido();
-
-        favorecido.setCodigo(csv.get("Código Favorecido"));
-        favorecido.setNome(csv.get("Favorecido"));
-
-        return favorecido;
     }
 
     public List<Acao> getAcoes() {

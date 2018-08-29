@@ -4,6 +4,7 @@ import br.edu.ifpb.etl.model.Acao;
 import br.edu.ifpb.etl.model.Data;
 import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
@@ -21,11 +22,11 @@ public class ExtrairDados {
     private String path;
     private Reader reader;
     private CSVParser parser;
+    private Iterator<CSVRecord> iterator;
 
     public ExtrairDados(String path) throws IOException {
 
         this.path = path;
-
         this.reader = Files.newBufferedReader(Paths.get(path),
                 Charset.forName("ISO-8859-1"));
         this.parser = new CSVParser(
@@ -35,18 +36,23 @@ public class ExtrairDados {
                         .withFirstRecordAsHeader()
                         .withIgnoreSurroundingSpaces()
         );
+        this.iterator = parser.iterator();
 
     }
 
     public List<CSVRecord> getRecords() {
 
-        Iterator<CSVRecord> iterator = parser.iterator();
         List<CSVRecord> csvs = new ArrayList<>();
 
         while (iterator.hasNext()) {
             csvs.add(iterator.next());
         }
+
         return csvs;
     }
 
+    public boolean verificarCSV() {
+
+        return iterator.hasNext();
+    }
 }
