@@ -18,18 +18,23 @@ public class EmpenhoTemporario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codAcao")
     private Acao acao;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codFavorecido")
     private Favorecido favorecido;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codUnidadeGestora")
     private UnidadeGestora unidadeGestora;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codData")
     private Data data;
+
     private BigDecimal valor;
 
     public EmpenhoTemporario() {

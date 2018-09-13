@@ -11,6 +11,7 @@ import br.edu.ifpb.etl.model.EmpenhoTemporario;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarregaDados {
 
@@ -25,102 +26,65 @@ public class CarregaDados {
 
     public void salvarAcoes(List<Acao> acoesCSV) throws IOException {
 
-        List<Acao> acoesBanco = find.findAcoes();
-        List<Acao> novasAcoes = new ArrayList<>();
+        List<Acao> novasAcoes = acoesCSV
+                .stream()
+                .filter(a -> find.findAcao(a) == null)
+                .collect(Collectors.toList());
 
-        int cont = 0;
-        if (!acoesBanco.isEmpty()) {
-            for (int k = 0; k < acoesCSV.size(); k++) {
-                boolean igual = false;
-                for (int i = 0; i < acoesBanco.size(); i++) {
-                    if (acoesCSV.get(k).getCodigoAcao().equals(acoesBanco.get(i)
-                            .getCodigoAcao())) {
-                        igual = true;
-                    }
-                }
-                if (igual == false) {
-                    novasAcoes.add(acoesCSV.get(k));
-                }
+        System.out.println("quantidade acoes novas : " + novasAcoes.size());
+        novasAcoes.forEach(a -> persist.salvarAcao(a));
 
-            }
-
-            System.out.println("quantidade acoes novas : " + novasAcoes.size());
-            novasAcoes.forEach(a -> persist.salvarAcao(a));
-
-        } else {
-            System.out.println("quantidade acoes novas : " + acoesCSV.size());
-            acoesCSV.forEach(a -> persist.salvarAcao(a));
-        }
     }
 
     public void salvarFavorecidos(List<Favorecido> favorecidosCSV) {
 
-        List<Favorecido> favorecidosBanco = find.findFavorecidos();
+//   
         List<Favorecido> novos = new ArrayList<>();
 
-        if (!favorecidosBanco.isEmpty()) {
-            for (int k = 0; k < favorecidosCSV.size(); k++) {
-                boolean existe = false;
-                for (int i = 0; i < favorecidosBanco.size(); i++) {
-                    if (favorecidosCSV.get(k).getCodigo().equals(favorecidosBanco
-                            .get(i).getCodigo())) {
-                        existe = true;
-                    }
-                }
-                if (existe == false) {
-                    novos.add(favorecidosCSV.get(k));
-                }
-            }
-            System.out.println("favorecidos novos: " + novos.size());
-            novos.forEach(f -> persist.salvarFavorecido(f));
-
-        } else {
-            System.out.println("favorecidos novos: " + favorecidosCSV.size());
-            favorecidosCSV.forEach(f -> persist.salvarFavorecido(f));
-        }
+        novos = favorecidosCSV
+                .stream()
+                .filter(f -> find.findFavorecido(f) == null)
+                .collect(Collectors.toList());
+        System.out.println("favorecidos novos: " + novos.size());
+        persist.salvarFavorecido(novos);
     }
 
     public void salvarData(Data data) {
 
-        persist.salvarDatas(data);
+        if (find.findData(data) == null) {
+            persist.salvarDatas(data);
+        }
+
     }
 
     public void salvarUnidades(List<UnidadeGestora> unidadesCSV) {
 
-        List<UnidadeGestora> unidadesBanco = find.findUnidadesGestoras();
         List<UnidadeGestora> novas = new ArrayList<>();
 
-        if (!unidadesBanco.isEmpty()) {
-            for (int k = 0; k < unidadesCSV.size(); k++) {
-                boolean existe = false;
-                for (int i = 0; i < unidadesBanco.size(); i++) {
-                    if (unidadesCSV.get(k).getCodigoUnidadeGestora() == unidadesBanco
-                            .get(i).getCodigoUnidadeGestora()) {
-                        existe = true;
-                    }
-                }
-                if (existe == false) {
-                    novas.add(unidadesCSV.get(k));
-                }
-            }
-            System.out.println("unidades novas: " + novas.size());
-            novas.forEach(u -> persist.salvarUnidadeGestora(u));
+        novas = unidadesCSV
+                .stream()
+                .filter(u -> find.findUnidadeGestora(u) == null)
+                .collect(Collectors.toList());
 
-        } else {
-            System.out.println("unidades novas: " + unidadesCSV.size());
-            unidadesCSV.forEach(u -> persist.salvarUnidadeGestora(u));
-        }
+        System.out.println("unidades novas: " + novas.size());
+        novas.forEach(u -> persist.salvarUnidadeGestora(u));
 
     }
 
     public void salvarEmpenhos(List<EmpenhoTemporario> empenhos) {
 
-        System.out.println("empenhos temporários: "+ empenhos.size());
-        empenhos.forEach(e -> persist.salvarEmpenhoTemporario(e));
+        System.out.println("empenhos temporários: " + empenhos.size());
+        //empenhos.forEach(e -> persist.salvarEmpenhoTemporario(e));
+        persist.salvarEmpenhoTemporario(empenhos);
     }
-    
-    public void executaInsereEmpenhos(){
+
+    public void executaInsereEmpenhos() {
         System.out.println("Executando o procedimento para inserir empenhos");
         persist.executeInsereEmpenhos();
+    }
+
+    public void limparEM() {
+        find.limparEM();
+        persist.limparEM();
     }
 }

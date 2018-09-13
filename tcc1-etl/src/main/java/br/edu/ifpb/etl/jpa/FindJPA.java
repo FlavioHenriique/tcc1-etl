@@ -21,27 +21,12 @@ public class FindJPA {
                 .createEntityManager();
     }
 
-    public List<Favorecido> findFavorecidos() {
-        Query query = manager.createQuery("select f from Favorecido f", Favorecido.class);
-        return query.getResultList();
-    }
-
     public Favorecido findFavorecido(Favorecido f) {
         return manager.find(Favorecido.class, f.getCodigo());
     }
 
-    public List<Acao> findAcoes() {
-        Query query = manager.createQuery("select a from Acao a", Acao.class);
-        return query.getResultList();
-    }
-
     public Acao findAcao(Acao a) {
         return manager.find(Acao.class, a.getCodigoAcao());
-    }
-
-    public List<UnidadeGestora> findUnidadesGestoras() {
-        Query query = manager.createQuery("select u from UnidadeGestora u", UnidadeGestora.class);
-        return query.getResultList();
     }
 
     public UnidadeGestora findUnidadeGestora(UnidadeGestora u) {
@@ -57,5 +42,11 @@ public class FindJPA {
     public Data findData(Data d) {
 
         return manager.find(Data.class, d.getCodigo());
+    }
+
+    public void limparEM() {
+        //manager.flush();
+        manager.clear();
+
     }
 }

@@ -13,7 +13,6 @@ import javax.persistence.Id;
 public class UnidadeGestora implements Serializable {
 
     @Id
-    @Column(unique = true)
     private int codigoUnidadeGestora;
     private String nomeUnidadeGestora;
     private int codigoOrgaoSuperior;
@@ -30,7 +29,7 @@ public class UnidadeGestora implements Serializable {
         this.nomeOrgaoSuperior = nomeOrgaoSuperior;
         this.codigoOrgao = codigoOrgao;
         this.nomeOrgao = nomeOrgao;
-        
+
     }
 
     public UnidadeGestora() {
@@ -84,8 +83,6 @@ public class UnidadeGestora implements Serializable {
         this.nomeOrgao = nomeOrgao;
     }
 
-    
-
     @Override
     public String toString() {
         return "UnidadeGestora{" + "codigoUnidadeGestora=" + codigoUnidadeGestora
@@ -104,7 +101,7 @@ public class UnidadeGestora implements Serializable {
         hash = 71 * hash + Objects.hashCode(this.nomeOrgaoSuperior);
         hash = 71 * hash + this.codigoOrgao;
         hash = 71 * hash + Objects.hashCode(this.nomeOrgao);
-        
+
         return hash;
     }
 
@@ -138,8 +135,8 @@ public class UnidadeGestora implements Serializable {
         if (!Objects.equals(this.nomeOrgao, other.nomeOrgao)) {
             return false;
         }
-        
+
         return true;
     }
-    
+
 }

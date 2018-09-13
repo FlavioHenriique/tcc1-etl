@@ -6,13 +6,8 @@ import br.edu.ifpb.etl.model.EmpenhoTemporario;
 import br.edu.ifpb.etl.model.Favorecido;
 import br.edu.ifpb.etl.model.UnidadeGestora;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import org.apache.commons.csv.CSVRecord;
 
 public class TransformarDados {
@@ -29,19 +24,19 @@ public class TransformarDados {
         this.favorecidos = new ArrayList<>();
         this.unidades = new ArrayList<>();
         this.empenhos = new ArrayList<>();
+        
     }
 
     public boolean csvValido(List<CSVRecord> records) {
-        return (records.size() != 0);
+        return (!records.isEmpty());
     }
 
     public void transformarTodos(List<CSVRecord> records) {
 
-        if (records.size() != 0) {
+        if (!records.isEmpty()) {
             for (int k = 0; k < records.size(); k++) {
-                System.out.println(k);
-                CSVRecord record = records.get(k);
 
+                CSVRecord record = records.get(k);
                 RetornaEntidades entidades = new RetornaEntidades(record);
 
                 // Recuperando as ações 
@@ -65,7 +60,7 @@ public class TransformarDados {
                 String valor = record.get("Valor do Empenho Convertido pra R$")
                         .replaceAll(",", ".");
                 empenho.setValor(new BigDecimal(valor));
-                System.out.println(record.get("Data Emissão"));
+
                 //    verificaEmpenhos(empenho);
                 empenhos.add(empenho);
             }
@@ -73,6 +68,8 @@ public class TransformarDados {
             RetornaEntidades entidades = new RetornaEntidades(records.get(0));
             this.data = entidades.retornaData();
         }
+        
+        
     }
 
     private void verificaAcao(Acao acao) {
@@ -133,7 +130,7 @@ public class TransformarDados {
     }
 
     public List<Acao> getAcoes() {
-        return acoes;
+        return this.acoes;
     }
 
     public List<Favorecido> getFavorecidos() {

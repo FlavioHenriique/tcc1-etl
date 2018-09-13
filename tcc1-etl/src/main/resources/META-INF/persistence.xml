@@ -9,6 +9,7 @@
     <class>br.edu.ifpb.etl.model.Empenho</class>
     <class>br.edu.ifpb.etl.model.EmpenhoTemporario</class>
     <properties>
+      <property name="eclipselink.jdbc.batch-writing" value="Oracle-JDBC"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tcc"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

@@ -11,17 +11,17 @@ CREATE TABLE empenho(
 	FOREIGN KEY (codunidadegestora) REFERENCES Unidadegestora(codigounidadegestora)
 );
 
-CREATE OR REPLACE FUNCTION insereempenhos() 
+CREATE OR REPLACE FUNCTION insereEmpenhos() 
 RETURNS VOID AS $$
 DECLARE
 rec RECORD;
 BEGIN
 	FOR rec IN
-		SELECT sum(valor) as soma, codacao,coddata,codfavorecido,codunidadegestora
-		FROM empenhotemporario
+		SELECT SUM(valor) as soma, codacao,coddata,codfavorecido,codunidadegestora
+		FROM EmpenhoTemporario
 		GROUP BY (codacao,coddata,codfavorecido,codunidadegestora)
 	LOOP
-		INSERT INTO empenho (codacao,coddata,codfavorecido,codunidadegestora,valor)
+		INSERT INTO EMPENHO (codacao,coddata,codfavorecido,codunidadegestora,valor)
 		VALUES (rec.codacao,rec.coddata,rec.codfavorecido,rec.codunidadegestora,rec.soma);
 	END LOOP;
 

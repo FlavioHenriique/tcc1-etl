@@ -13,8 +13,6 @@ import javax.persistence.UniqueConstraint;
 @Entity
 public class Acao implements Serializable {
 
-    
-    private int id;
     private int codigoFuncao;
     private String nomeFuncao;
     private String codigoSubFuncao;
@@ -40,14 +38,6 @@ public class Acao implements Serializable {
         this.nomePrograma = nomePrograma;
         this.codigoAcao = codigoAcao;
         this.nomeAcao = nomeAcao;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getCodigoFuncao() {
@@ -116,12 +106,11 @@ public class Acao implements Serializable {
 
     @Override
     public String toString() {
-        return "Acao{" + "id=" + id + ", codigoFuncao=" + codigoFuncao
-                + ", nomeFuncao=" + nomeFuncao + ", codigoSubFuncao="
-                + codigoSubFuncao + ", nomeSubFuncao=" + nomeSubFuncao
-                + ", codigoPrograma=" + codigoPrograma + ", nomePrograma="
-                + nomePrograma + ", codigoAcao=" + codigoAcao
-                + ", nomeAcao=" + nomeAcao + '}';
+        return "Acao{" + "codigoFuncao=" + codigoFuncao + ", nomeFuncao="
+                + nomeFuncao + ", codigoSubFuncao=" + codigoSubFuncao
+                + ", nomeSubFuncao=" + nomeSubFuncao + ", codigoPrograma="
+                + codigoPrograma + ", nomePrograma=" + nomePrograma
+                + ", codigoAcao=" + codigoAcao + ", nomeAcao=" + nomeAcao + '}';
     }
 
 }

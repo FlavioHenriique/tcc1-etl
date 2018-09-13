@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class Main {
+public class Loader {
 
     private static final String path = "/home/flavio/ADS/5º  Período/T.C.C 1/dados/";
     private static ExtrairDados extrai;
@@ -26,11 +26,12 @@ public class Main {
 
         //deletaCSVsVazios();
         try {
-            String pasta = path + "201402/";
+            String pasta = path + "201712/";
+            System.out.println(pasta);
             carrega = new CarregaDados();
 
             List<File> arquivos = arquivos(pasta);
-
+            System.out.println(arquivos.size());
             // Salvando data
             extrai = new ExtrairDados(arquivos.get(0).getPath());
 
@@ -43,14 +44,9 @@ public class Main {
 
             // Processo de ETL em cada arquivo
             arquivos.forEach(a -> processarArquivo(a));
-
             // Executando procedimento armazenado 
-            //carrega.executaInsereEmpenhos();
-            System.out.println("Deseja continuar? " + pasta);
-            int o = scan.nextInt();
-            if (o == 0) {
-                System.exit(0);
-            }
+            carrega.executaInsereEmpenhos();
+            
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -88,11 +84,11 @@ public class Main {
 
     private static List<File> arquivos(String pasta) {
 
-        return Arrays.asList(
-                new File(pasta)
-                        .listFiles()
-        )
-                .subList(20, 28);
+        List<File> arquivos = Arrays
+                .asList(new File(pasta)
+                        .listFiles());
+        //    return arquivos.subList(0, arquivos.size());
+        return arquivos.subList(0, arquivos.size());
     }
 
     // MÉTODO PARA O PROCESSO DO ETL EM CADA ARQUIVO
@@ -116,7 +112,5 @@ public class Main {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
-
 }
