@@ -31,7 +31,7 @@ public class CarregaDados {
                 .filter(a -> find.findAcao(a) == null)
                 .collect(Collectors.toList());
 
-        System.out.println("quantidade acoes novas : " + novasAcoes.size());
+        System.out.println("acoes novas: " + novasAcoes.size());
         novasAcoes.forEach(a -> persist.salvarAcao(a));
 
     }

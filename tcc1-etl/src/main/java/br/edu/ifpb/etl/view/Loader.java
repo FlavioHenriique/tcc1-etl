@@ -6,48 +6,50 @@ import br.edu.ifpb.etl.data.RetornaEntidades;
 import br.edu.ifpb.etl.data.TransformarDados;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Loader {
 
-    private static final String path = "/home/flavio/ADS/5º  Período/T.C.C 1/dados/";
+    private static final String path = "/home/flavio/ADS/5º Período/T.C.C 1/dados/";
     private static ExtrairDados extrai;
     private static TransformarDados transforma;
     private static CarregaDados carrega;
-    private static Scanner scan = new Scanner(System.in);
+    private static String ano = "2018";
 
     public static void main(String[] args) {
 
         //deletaCSVsVazios();
         try {
-            String pasta = path + "201712/";
-            System.out.println(pasta);
-            carrega = new CarregaDados();
+            for (int k = 1; k <= 12; k++) {
+                String pasta = (k > 9) ? path + ano + k : path + ano + "0" + k;
+                carrega = new CarregaDados();
 
-            List<File> arquivos = arquivos(pasta);
-            System.out.println(arquivos.size());
-            // Salvando data
-            extrai = new ExtrairDados(arquivos.get(0).getPath());
+                List<File> arquivos = arquivos(pasta);
+                // Salvando data
+                extrai = new ExtrairDados(arquivos.get(0).getPath());
 
-            RetornaEntidades retorna = new RetornaEntidades(
-                    extrai.getRecords().get(0)
-            );
+                RetornaEntidades retorna = new RetornaEntidades(
+                        extrai.getRecords().get(0)
+                );
 
-            carrega.salvarData(retorna.retornaData());
-            System.out.println("data salva: " + pasta);
+                carrega.salvarData(retorna.retornaData());
+                System.out.println("data salva: " + pasta);
 
-            // Processo de ETL em cada arquivo
-            arquivos.forEach(a -> processarArquivo(a));
-            // Executando procedimento armazenado 
-            carrega.executaInsereEmpenhos();
-            
+                long tempo = System.currentTimeMillis();
 
+                // Processo de ETL em cada arquivo
+                arquivos.forEach(a -> processarArquivo(a));
+
+                // Executando procedimento armazenado 
+                carrega.executaInsereEmpenhos();
+
+                long tempofinal = System.currentTimeMillis() - tempo;
+                long minutos = minutos = (tempofinal / 60000) % 60;
+                System.out.println("tempo de execução: " + minutos + " minutos");
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -75,7 +77,6 @@ public class Loader {
     private static List<File> pastas() {
 
         File[] pastas = new File(path).listFiles();
-
         return Arrays.asList(pastas)
                 .stream()
                 .filter(p -> p.listFiles().length > 0)
@@ -83,12 +84,9 @@ public class Loader {
     }
 
     private static List<File> arquivos(String pasta) {
+        System.out.println(pasta);
+        return Arrays.asList(new File(pasta).listFiles());
 
-        List<File> arquivos = Arrays
-                .asList(new File(pasta)
-                        .listFiles());
-        //    return arquivos.subList(0, arquivos.size());
-        return arquivos.subList(0, arquivos.size());
     }
 
     // MÉTODO PARA O PROCESSO DO ETL EM CADA ARQUIVO
